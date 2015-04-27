@@ -235,7 +235,7 @@ void loop() {
     Serial.println();
   }
  
-  int currentTemp = ((analogRead(temperatureInputPin)/1.66667)+20);
+  int currentTemp = ((analogRead(temperatureInputPin)*0.6)+20);
   fuzzy->setInput(1,currentTemp);
   fuzzy->fuzzify();
   float pwmThrottle = fuzzy->defuzzify(1);
