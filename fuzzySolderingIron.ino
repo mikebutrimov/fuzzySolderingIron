@@ -11,7 +11,7 @@
 int oldTemperature = 0;
 int newTemperature = 0;
 int pwnOutputPin = 5;
-int pwmThrottle = 0;
+float pwmThrottle = 0;
 int temperatureInputPin = 18;
 int currentTime = 0; 
 int lastTimeCall = 0;
@@ -236,15 +236,15 @@ void loop() {
   int currentTemp = ((analogRead(temperatureInputPin)/1.66667)+20);
   fuzzy->setInput(1,currentTemp);
   fuzzy->fuzzify();
-  float pwm = fuzzy->defuzzify(1);
+  float pwmThrottle = fuzzy->defuzzify(1);
     
   Serial.print("New temperature -> ");
   Serial.print(newTemperature);
   Serial.println();
   Serial.print("Action - > ");
-  Serial.print(pwm);
+  Serial.print(pwmThrottle);
   Serial.println();
-  analogWrite(pwnOutputPin,pwm);
+  analogWrite(pwnOutputPin,pwmThrottle);
   Serial.print("Thermal Readout? -> ");
   Serial.print(currentTemp);
   Serial.println();
