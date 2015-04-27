@@ -8,8 +8,10 @@
 #include <FuzzyIO.h>
 #include <FuzzyOutput.h>
  
-int oldTemperature = 0;
-int newTemperature = 0;
+int oldTemperature = 220;
+int newTemperature = 220;
+int defaultTemperature = 220;
+int maxTemperature = 300;
 int pwnOutputPin = 5;
 float pwmThrottle = 0;
 int temperatureInputPin = 18;
@@ -183,7 +185,7 @@ void processButtons(){
  
 int riseTemperature (int temp){
   int returnedTemp = temp+5;
-  if (returnedTemp <=500){
+  if (returnedTemp <= maxTemperature){
     return returnedTemp;
   }
   else {
@@ -208,7 +210,7 @@ void setup() {
   pinMode(upButtonPin, INPUT);
   pinMode(downButtonPin, INPUT);
   analogWrite(pwnOutputPin,pwmThrottle);
-  setUpFuzzy(0);
+  setUpFuzzy(defaultTemperature);
 }
  
  
