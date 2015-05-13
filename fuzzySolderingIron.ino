@@ -234,9 +234,7 @@ int lowerTemperature (int temp){
   }
   return returnedTemp;
 }
- 
- 
- 
+
 void setup() {
   Serial.begin(115200);
   pinMode(pwnOutputPin, OUTPUT);
@@ -251,11 +249,8 @@ void setup() {
   display.setContrast(60);
   delay(1000);
 }
- 
- 
- 
-void loop() {
 
+void loop() {
   //here we read out temperature settings and generate fuzzy objects
   //now just sustitle it with randomly generated number
   if (coolDownOnceTrigger ==0){
@@ -266,24 +261,18 @@ void loop() {
     processButtons();
     coolDownOnceTrigger = 0;
   }
- 
   if (newTemperature != oldTemperature){
     deleteFuzzy();
     setUpFuzzy(newTemperature);  
     oldTemperature = newTemperature;
     Serial.print("Create Fuzzy");
     Serial.println();
-  
   }
- 
   int currentTemp = ((analogRead(temperatureInputPin)*0.6)+20);
   fuzzy->setInput(1,currentTemp);
   fuzzy->fuzzify();
   float pwmThrottle = fuzzy->defuzzify(1);
-  
-  
-  
-  
+
   if (coolDownDisplayTrigger ==0){
     coolDownDisplayRepeat = millis()+displayDelay;
     coolDownDisplayTrigger = 1;
@@ -301,17 +290,18 @@ void loop() {
         }
     } 
     
-    if (displayTempType == 0){
-      if (needClearDisplay = 1){
+    if (displayTempType == 0){  
+      if (needClearDisplay == 1){
+        display.display();
         display.clearDisplay();
-        needClearDisplay = 0;
+        needClearDisplay = 0;        
       }
       displayMsg("Current temp:", display);
       displayMsg((String)currentTemp,display, 0, 9, 4);
       displayMsg("pwm: ",display,0,38,1);
       displayMsg((String)pwmThrottle,display,25,38,1);
       display.display();
-      for (int y = 9; y< 38; y++){
+      for (int y = 9; y< 37; y++){
         for (int x = 0; x< 84; x++){
           display.drawPixel(x,y,0);
         }
@@ -325,7 +315,7 @@ void loop() {
     coolDownDisplayTrigger = 0;
   }
   
- 
+
   Serial.print("New temperature -> ");
   Serial.print(newTemperature);
   Serial.println();
